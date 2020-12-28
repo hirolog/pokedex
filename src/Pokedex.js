@@ -8,10 +8,12 @@ import {
   fade,
   Grid,
   makeStyles,
+  TextField,
   Toolbar,
   Typography
 } from "@material-ui/core";
 // import mockData from "./mockData";
+import SearchIcon from "@material-ui/icons/Search";
 import { toFirstCharUppercase } from "./constants";
 import axios from "axios";
 
@@ -55,6 +57,7 @@ const Pokedex = (props) => {
   const { history } = props;
   const classes = useStyles();
   const [pokemonData, setPokemonData] = useState({});
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     axios
@@ -75,6 +78,10 @@ const Pokedex = (props) => {
         setPokemonData(newPokemonData);
       });
   }, []);
+
+  const handleSearchChange = (e) => {
+    setFilter(e.target.value);
+  };
 
   const getPokemonCard = (pokemonId) => {
     const { id, name, sprite } = pokemonData[pokemonId];
@@ -101,12 +108,24 @@ const Pokedex = (props) => {
   return (
     <React.StrictMode>
       <AppBar position="static">
-        <Toolbar>Menu</Toolbar>
+        <Toolbar>
+          <div className={classes.searchContainer}>
+            <SearchIcon className={classes.searchIcon} />
+            <TextField
+              className={classes.searchInput}
+              onChange={handleSearchChange}
+              label="Pokemon"
+              variant="standard"
+            />
+          </div>
+        </Toolbar>
       </AppBar>
       {pokemonData ? (
         <Grid container spacing={2} className={classes.pokedexContainer}>
-          {Object.keys(pokemonData).map((pokemonId) =>
-            getPokemonCard(pokemonId)
+          {Object.keys(pokemonData).map(
+            (pokemonId) =>
+              pokemonData[pokemonId].name.includes(filter) &&
+              getPokemonCard(pokemonId)
           )}
         </Grid>
       ) : (
