@@ -19,16 +19,21 @@ import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
-    padding: theme.spacing(1),
-    margin: theme.spacing(1)
+    maxWidth: 400,
+    padding: theme.spacing(2),
+    margin: theme.spacing(2)
   },
   media: {
     height: 0,
     paddingTop: "100%"
   },
   avatar: {
-    backgroundColor: red[500]
+    backgroundColor: red[100],
+    width: theme.spacing(10),
+    height: theme.spacing(10)
+  },
+  title: {
+    fontSize: "1.5rem"
   }
 }));
 
@@ -62,11 +67,14 @@ const Pokemon = (props) => {
             <Card className={classes.root}>
               <CardHeader
                 avatar={
-                  <Avatar className={classes.avatar}>
+                  <Avatar variant="square" className={classes.avatar}>
                     <img src={front_default} alt="" />
                   </Avatar>
                 }
                 title={`${id}. ${toFirstCharUppercase(name)}`}
+                classes={{
+                  title: classes.title
+                }}
               />
               <CardMedia
                 className={classes.media}
@@ -103,7 +111,13 @@ const Pokemon = (props) => {
   };
   return (
     <>
-      {pokemon === undefined && <CircularProgress />}
+      {pokemon === undefined && (
+        <Grid container justify="center" style={{ marginTop: 50 }}>
+          <Grid item xs={false}>
+            <CircularProgress />
+          </Grid>
+        </Grid>
+      )}
       {pokemon !== undefined && pokemon && generatePokemonJSX(pokemon)}
       {pokemon === false && <Typography> Pokemon not found</Typography>}
       {pokemon !== undefined && (

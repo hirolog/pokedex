@@ -18,8 +18,8 @@ import axios from "axios";
 const useStyles = makeStyles((theme) => ({
   pokedexContainer: {
     paddingTop: "20px",
-    paddingLeft: "50px",
-    paddingRight: "50px"
+    paddingLeft: "30px",
+    paddingRight: "30px"
   },
   cardMedia: {
     margin: "auto"
@@ -42,6 +42,12 @@ const useStyles = makeStyles((theme) => ({
   searchInput: {
     width: "200px",
     margin: "5px"
+  },
+  hover: {
+    "&:hover": {
+      background: "#fdd",
+      cursor: "pointer"
+    }
   }
 }));
 
@@ -74,8 +80,11 @@ const Pokedex = (props) => {
     const { id, name, sprite } = pokemonData[pokemonId];
 
     return (
-      <Grid item xs={4} key={pokemonId}>
-        <Card onClick={() => history.push(`/${pokemonId}`)}>
+      <Grid item xs={6} sm={4} key={pokemonId}>
+        <Card
+          onClick={() => history.push(`/${pokemonId}`)}
+          className={classes.hover}
+        >
           <CardMedia
             className={classes.cardMedia}
             image={sprite}
@@ -95,7 +104,7 @@ const Pokedex = (props) => {
         <Toolbar>Menu</Toolbar>
       </AppBar>
       {pokemonData ? (
-        <Grid container spacing={3} className={classes.pokedexContainer}>
+        <Grid container spacing={2} className={classes.pokedexContainer}>
           {Object.keys(pokemonData).map((pokemonId) =>
             getPokemonCard(pokemonId)
           )}
